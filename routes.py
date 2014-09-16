@@ -4,6 +4,7 @@ from flask.ext.login import LoginManager, login_required, login_user, logout_use
 
 from app import app, db, login_manager
 from models import User
+from forms import LoginForm
 
 login_manager.login_view = 'login'
 
@@ -14,6 +15,17 @@ def load_user(id):
 @app.before_request
 def before_request():
     g.user = current_user
+
+@app.route('/form', methods=['POST', 'GET'])
+@login_required
+def form():
+    form = LoginForm()
+    if form.validate_on_submit():
+        flash('open id: ' + form.openid.data + 'remember_me: ' + str(form.remember_me.data))
+    return render_template('form.html',
+                           title = 'Sign In',
+                           form = form,
+                           providers = app.config['OPENID_PROVIDERS'])
 
 @app.route('/')
 @app.route('/home')
