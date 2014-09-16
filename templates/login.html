@@ -1,0 +1,38 @@
+﻿{% extends "layout.html" %}
+
+{%block content %}
+<div class="col-lg-offset-2">
+    <form id="login-form" action="/login" method="post" name="form-signup">
+        <div class="modal-body">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" name="username" id="username" placeholder="username" />
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="password" />
+        </div>
+        <button type="submit" value="submit" class="btn btn-primary">
+            Submit
+        </button>
+
+    </form>
+</div>
+<script src="/static/scripts/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('login-form').on('submit', function (e) {
+            e.defaultPrevented;
+            $.ajax({
+                url: "/login",
+                type: "POST",
+                data: $('login-form').serialize(),
+                success: function (data) {
+                    console.debug("Successfully submitted.")
+                },
+                error: function (xhr, status, errorThorwn) {
+                    console.debug(status)
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}
