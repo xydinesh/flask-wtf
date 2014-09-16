@@ -5,10 +5,8 @@ from flask.ext.login import LoginManager
 # If you get an error on the next line on Python 3.4.0, change to: Flask('app')
 # where app matches the name of this file without the .py extension.
 app = Flask(__name__)
-app.config['CSRF_ENABLED'] = True
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://docker:docker@192.168.59.103:5432/docker'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///flask_template.db'
-app.config['SECRET_KEY'] ='you will never guess it !'
+app.config.from_object('config')
+
 db = SQLAlchemy(app)
 
 login_manager = LoginManager()
